@@ -1,11 +1,27 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=20, blank=True)
-    address = models.TextField(blank=True)
-    image = models.ImageField(upload_to='profiles/', blank=True)
+class CustomUser(AbstractUser):
+    phone = models.CharField(max_length=20, blank=True, verbose_name="Numéro")
+    address = models.TextField(blank=True, verbose_name="Adresse")
+    
+    class Meta:
+        verbose_name = 'Utilisateur'
+        verbose_name_plural = 'Utilisateurs'
 
-    def __str__(self):
-        return f"Profile of {self.user.username}"
+    groups = models.ManyToManyField(
+        Group,
+        related_name="customuser_groups",
+        related_query_name="user",
+        blank=True,
+        verbose_name='groups',
+        help_text='The groups this user belongs to.'
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name="customuser_permissions",
+        related_query_name="user",
+        blank=True,
+        verbose_name='user permissions',
+        help_text='Specific permissions for this user.'
+    )

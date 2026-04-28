@@ -1,0 +1,44 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Livraison{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Livraison de commande</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary">Valider la commande</button>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <h3>Résumé de la commande</h3>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="col">Sous-Total - produits:</div>
+                            <div class="col"><strong>{{cart.total}}MAD</strong></div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="col">Expédition:</div>
+                            <div class="col"><strong>GRATUIT</strong></div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="row">
+                            <div class="col"><h3>Total:</h3></div>
+                            <div class="col"><h3>{{cart.total}}MAD</h3></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

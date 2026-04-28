@@ -4,27 +4,27 @@ from products.models import Category, Product
 import random
 
 class Command(BaseCommand):
-    help = 'Génère des données fictives pour les produits'
+    help='Génère les données fictives pour les produits'
 
     def handle(self, *args, **options):
         faker = Faker('fr_FR')
-        categories = []
 
-        # Créer 5 catégories
+        # créer 5 catégories
+        categories = []
         for _ in range(5):
             name = faker.word().capitalize()
             slug = faker.slug()
             categorie = Category.objects.create(name=name, slug=slug)
             categories.append(categorie)
-            self.stdout.write(f'Catégorie créée avec succès: {name}')
+            self.stdout.write(f'Catégorie créée avec succès:{name}')
 
-        # Créer 8 produits
+        # créer des produits
         for i in range(8):
             Product.objects.create(
-                name=' '.join(faker.words(3)).capitalize(),
-                description=faker.text(),
-                price=round(random.uniform(1000, 8000), 2),
-                category=random.choice(categories),
-                stock=random.randint(10, 100),
+                name=faker.sentence(nb_words=4).replace('.',''),
+                description=faker.text(max_nb_chars=450),
+                price=faker.random_number(digits=4),
+                stock=faker.random_int(0, 100),
+                category=random.choice(categories)
             )
             self.stdout.write(f'Produit {i+1} créé avec succès')
